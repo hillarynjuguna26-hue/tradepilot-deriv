@@ -1,0 +1,4 @@
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tradepilot
+DERIV_APP_ID=
+DERIV_TOKEN=
+JWT_SECRET=change-this-secret
