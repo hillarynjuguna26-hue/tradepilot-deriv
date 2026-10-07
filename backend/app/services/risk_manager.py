@@ -14,13 +14,8 @@ class RiskManager:
         if daily_loss >= account_balance * self.max_daily_loss:
             return False, "daily_loss_limit"
 
-        return True, account_balance * self.max_risk_per_trade
-
-    def compute_stake(self, account_balance: float, open_positions: int, daily_loss: float) -> tuple[bool, float | str]:
-        allowed, risk_amount = self.allowed_trade(account_balance, open_positions, daily_loss)
-        if not allowed:
-            return False, risk_amount
-        return True, float(risk_amount)
+        risk_amount = account_balance * self.max_risk_per_trade
+        return True, risk_amount
 
 
 def get_supported_symbols():

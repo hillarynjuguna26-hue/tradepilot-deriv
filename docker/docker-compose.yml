@@ -1,4 +1,15 @@
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tradepilot
-DERIV_APP_ID=
-DERIV_TOKEN=
-JWT_SECRET=change-this-secret
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tradepilot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

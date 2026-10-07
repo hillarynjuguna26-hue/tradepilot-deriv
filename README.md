@@ -1,32 +1,25 @@
 # TradePilot Deriv
 
-A mobile-friendly trading automation starter for Deriv featuring LuxAlgo-inspired pivot analysis on the 15-minute timeframe.
+A mobile-first trading automation project for Deriv using a LuxAlgo-inspired pivot strategy on the 15-minute timeframe.
 
-Features
-- Deriv WebSocket integration for market data and order execution
-- Dynamic symbol catalog covering forex pairs and synthetic markets
-- LuxAlgo-inspired pivot-point strategy on the 15m timeframe
-- Risk controls and orders management
-- FastAPI backend
-- Flutter mobile dashboard
-- Docker-based local setup
-
-Architecture
-- Mobile app: Flutter dashboard and controls
-- Backend API: Python + FastAPI
-- Database: PostgreSQL
-- Execution layer: Deriv broker WebSocket API
-- Strategy: pivot breakout/reversal logic on 15m candles
+What is in this repo
+- FastAPI backend for strategy/config APIs
+- Deriv WebSocket client scaffold
+- 15m pivot strategy logic
+- risk manager
+- symbol catalog for forex and synthetic instruments
+- Flutter starter dashboard
+- Dockerized Postgres
 
 Quick start
 
-1. Create environment file:
+1. Copy env file:
    cp docker/.env.example docker/.env
 
-2. Start PostgreSQL:
+2. Start postgres:
    docker compose -f docker/docker-compose.yml up -d
 
-3. Install backend deps:
+3. Install backend dependencies:
    cd backend
    python -m venv .venv
    source .venv/bin/activate
@@ -35,25 +28,15 @@ Quick start
 4. Run backend:
    uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-5. Run mobile app:
+5. Open the API docs:
+   http://localhost:8000/docs
+
+6. Run the mobile app:
    cd mobile
    flutter pub get
    flutter run
 
-Important
-- Do not trade live without proper broker credentials and strict risk validation.
-- Use a demo or test account first.
-- MT5 is not involved here because this project targets Deriv.
-- Deriv symbol naming can differ by account type and region; verify exact names in your own account before live use.
-
-Required environment variables
-- DERIV_APP_ID
-- DERIV_TOKEN
-- DATABASE_URL
-
-Files
-- backend/app/services/pivot_strategy.py: LuxAlgo-style pivot logic
-- backend/app/services/deriv_client.py: live Deriv broker interaction
-- backend/app/services/strategy_engine.py: trade scanning engine
-- backend/app/services/symbol_catalog.py: forex + synthetic instrument catalog
-- mobile/lib/main.dart: mobile app entry
+Important notes
+- Use a demo account first.
+- Verify exact Deriv symbol names and contract types in your account before going live.
+- This is a starter architecture, not a guarantee of profit.
