@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.db import SessionLocal
 from app.models import SignalLog, StrategyConfig
 from app.services.symbol_catalog import get_symbol_catalog
+from app.services.pivot_strategy import evaluate_signal
 
 router = APIRouter()
 
@@ -87,7 +88,41 @@ def scan_demo_market():
         {"high": 1.0915, "low": 1.0888, "close": 1.0901},
     ]
 
-    from app.services.pivot_strategy import evaluate_signal
-
     action, confidence, levels = evaluate_signal(sample_candles, "frxEURUSD")
     return {"symbol": "frxEURUSD", "action": action, "confidence": confidence, "levels": levels}
+
+
+@router.post("/demo-scan")
+def demo_scan(payload: dict):
+    symbol = payload.get("symbol", "frxEURUSD")
+    sample_candles = [
+        {"high": 1.0838, "low": 1.0822, "close": 1.0830},
+        {"high": 1.0842, "low": 1.0828, "close": 1.0835},
+        {"high": 1.0848, "low": 1.0831, "close": 1.0840},
+        {"high": 1.0850, "low": 1.0836, "close": 1.0845},
+        {"high": 1.0854, "low": 1.0838, "close": 1.0849},
+        {"high": 1.0860, "low": 1.0842, "close": 1.0850},
+        {"high": 1.0865, "low": 1.0845, "close": 1.0856},
+        {"high": 1.0870, "low": 1.0847, "close": 1.0859},
+        {"high": 1.0875, "low": 1.0851, "close": 1.0862},
+        {"high": 1.0878, "low": 1.0854, "close": 1.0865},
+        {"high": 1.0881, "low": 1.0858, "close": 1.0868},
+        {"high": 1.0886, "low": 1.0860, "close": 1.0871},
+        {"high": 1.0888, "low": 1.0863, "close": 1.0874},
+        {"high": 1.0890, "low": 1.0867, "close": 1.0878},
+        {"high": 1.0895, "low": 1.0870, "close": 1.0883},
+        {"high": 1.0898, "low": 1.0874, "close": 1.0886},
+        {"high": 1.0905, "low": 1.0880, "close": 1.0890},
+        {"high": 1.0908, "low": 1.0884, "close": 1.0893},
+        {"high": 1.0912, "low": 1.0886, "close": 1.0898},
+        {"high": 1.0915, "low": 1.0888, "close": 1.0901},
+    ]
+
+    action, confidence, levels = evaluate_signal(sample_candles, symbol)
+    return {
+        "symbol": symbol,
+        "action": action,
+        "confidence": confidence,
+        "levels": levels,
+        "demo_mode": True,
+    }
